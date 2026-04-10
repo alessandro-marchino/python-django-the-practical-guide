@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest, HttpResponseNotFound
+from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, HttpResponseRedirect
 
 
 challenges = {
@@ -26,4 +26,9 @@ def monthly_challenge(request: HttpRequest, month: str) -> HttpResponse:
 
 
 def monthly_challenge_by_number(request: HttpRequest, month: int) -> HttpResponse:
-    return HttpResponse(month)
+    if month < 0 or month > 12:
+        return HttpResponseNotFound('This month is not supported')
+
+    months = list(challenges.keys())
+    forward_month = months[month - 1]
+    return HttpResponseRedirect(f"/challenges/{forward_month}")

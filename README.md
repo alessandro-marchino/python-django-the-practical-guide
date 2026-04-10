@@ -11,3 +11,11 @@ Inside a virtual environment, run
 ```bash
 pip install Django
 ```
+
+## Start project
+
+Inside the project, run
+
+```bash
+./manage.py runserver
+```

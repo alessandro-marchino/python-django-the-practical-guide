@@ -12,6 +12,8 @@ Inside a virtual environment, run
 pip install Django
 ```
 
+Use `batisteo.vscode-django` as a VSCode extension.
+
 ## Start project
 
 Inside the project, run

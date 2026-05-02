@@ -14,7 +14,7 @@ challenges = {
     'september': 'Learn Django for at least 20 minutes every day',
     'october': 'Eat no chocolate for the entire month',
     'november': 'Walk for at least 20 minutes every day',
-    'december': 'Learn Django for at least 20 minutes every day'
+    'december': None
 }
 
 def index(request: HttpRequest) -> HttpResponse:

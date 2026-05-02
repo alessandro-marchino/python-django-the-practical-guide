@@ -30,12 +30,11 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def monthly_challenge(request: HttpRequest, month: str) -> HttpResponse:
-    # try:
+    try:
         challenge_text = challenges[month]
-        response_data = render_to_string('challenges/challenge.html')
-        return HttpResponse(response_data)
-    # except:
-    #     return HttpResponseNotFound('<h1>This month is not supported</h1>')
+        return render(request, 'challenges/challenge.html')
+    except:
+        return HttpResponseNotFound('<h1>This month is not supported</h1>')
 
 
 def monthly_challenge_by_number(request: HttpRequest, month: int) -> HttpResponse:

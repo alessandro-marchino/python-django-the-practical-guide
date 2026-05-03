@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, Http404
 from django.urls import reverse
 
 challenges = {

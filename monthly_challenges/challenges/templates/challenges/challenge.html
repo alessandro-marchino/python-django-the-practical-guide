@@ -3,12 +3,12 @@
 {% block page_title %}{{ month_name | title }} Challenge{% endblock %}
 
 {% block content %}
-    {% include "challenges/includes/header.html" %}
+  {% include "challenges/includes/header.html" %}
 
-    <h1>{{ month_name | title }} Challenge</h1>
-    {% if text is not None %}
-        <h2>{{ text }}</h2>
-    {% else %}
-        <p>There is not challenge for this month yet!</p>
-    {% endif %}
+  <h1>{{ month_name | title }} Challenge</h1>
+  {% if text is not None %}
+    <h2>{{ text }}</h2>
+  {% else %}
+    <p>There is not challenge for this month yet!</p>
+  {% endif %}
 {% endblock %}

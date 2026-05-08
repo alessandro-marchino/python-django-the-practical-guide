@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from datetime import date
 
-posts = [
+all_posts = [
   {
     "slug": "hike-in-the-mountains",
     "image": "mountains.jpg",
@@ -68,12 +68,19 @@ posts = [
   }
 ]
 
+def get_date(post) -> date:
+    return post['date']
+
 # Create your views here.
 def starting_page(request: HttpRequest) -> HttpResponse:
-    return render(request, 'blog/index.html')
+  sorted_posts = sorted(all_posts, key=get_date)
+  latest_posts = sorted_posts[-3:]
+  return render(request, 'blog/index.html', {
+    "posts": latest_posts
+  })
 
 def posts(request: HttpRequest) -> HttpResponse:
-    return render(request, 'blog/all-posts.html')
+  return render(request, 'blog/all-posts.html')
 
 def post_detail(request: HttpRequest, slug: str) -> HttpResponse:
-    return render(request, 'blog/post-detail.html')
+  return render(request, 'blog/post-detail.html')

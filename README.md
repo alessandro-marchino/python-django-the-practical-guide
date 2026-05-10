@@ -21,3 +21,13 @@ Inside the project, run
 ```bash
 ./manage.py runserver
 ```
+
+## Django commands
+
+```bash
+# Craete migrations
+./manage.py makemigrations
+
+# Execute migrations
+./manage.py migrate
+```

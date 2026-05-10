@@ -30,4 +30,7 @@ Inside the project, run
 
 # Execute migrations
 ./manage.py migrate
+
+# Run a shell
+./manage.py shell
 ```

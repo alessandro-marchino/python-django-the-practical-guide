@@ -10,6 +10,6 @@ def index(req: HttpRequest) -> HttpResponse:
         "books": books
     })
 
-def book_detail(req: HttpRequest, id: int) -> HttpResponse:
-    book = get_object_or_404(Book, pk=id)
+def book_detail(req: HttpRequest, slug: str) -> HttpResponse:
+    book = get_object_or_404(Book, slug=slug)
     return render(req, 'book_outlet/book_detail.html', book.__dict__)

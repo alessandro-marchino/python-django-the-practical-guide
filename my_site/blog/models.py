@@ -8,6 +8,10 @@ class Author(models.Model):
     email_address = models.EmailField()
 
 
+class Tag(models.Model):
+    caption = models.CharField(max_length=20)
+
+
 class Post(models.Model):
     title = models.CharField(max_length=150)
     excerpt = models.CharField(max_length=200)
@@ -16,7 +20,6 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)
     content = models.TextField(validators=[ MinLengthValidator(10) ])
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name="posts")
+    tags = models.ManyToManyField(Tag)
 
 
-class Tag(models.Model):
-    pass

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 from datetime import date
 from .models import Post
@@ -17,11 +17,12 @@ def starting_page(request: HttpRequest) -> HttpResponse:
 
 def posts(request: HttpRequest) -> HttpResponse:
   return render(request, 'blog/all-posts.html', {
-    "all_posts": all_posts
+    "all_posts": Post.objects.all().order_by("-date")
   })
 
 def post_detail(request: HttpRequest, slug: str) -> HttpResponse:
-  identified_post = next(post for post in all_posts if post['slug'] == slug)
+  identified_post = get_object_or_404(Post, slug=slug)
+
   return render(request, 'blog/post-detail.html', {
     "post": identified_post
   })

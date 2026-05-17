@@ -5,6 +5,8 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.core.files.uploadedfile import UploadedFile
 
+from .forms import ProfileForm
+
 # Create your views here.
 
 def store_files(file: UploadedFile):
@@ -16,9 +18,16 @@ def store_files(file: UploadedFile):
 
 class CreateProfileView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        return render(request, "profiles/create_profile.html")
+        form = ProfileForm()
+        return render(request, "profiles/create_profile.html", {
+            "form": form
+        })
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        image = request.FILES["image"]
-        store_files(image)
-        return HttpResponseRedirect("/profiles")
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+          store_files(request.FILES["user_image"])
+          return HttpResponseRedirect("/profiles")
+        return render(request, "profiles/create_profile.html", {
+            "form": form
+        })

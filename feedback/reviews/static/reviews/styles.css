@@ -59,7 +59,7 @@ button {
   color: #680000;
 }
 .errors {
-  input {
+  input, textarea {
     border-color: #680000;
     background-color: #fde3e3;
   }

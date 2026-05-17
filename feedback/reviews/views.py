@@ -4,6 +4,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateView
+from django.views.generic import ListView
 
 from .models import Review
 from .forms import ReviewForm
@@ -34,13 +35,10 @@ class ThankYouView(TemplateView):
     context["message"] = "This works!"
     return context
 
-class ReviewsListView(TemplateView):
+class ReviewsListView(ListView):
   template_name = "reviews/review-list.html"
-
-  def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-    context = super().get_context_data(**kwargs)
-    context["reviews"] = Review.objects.all()
-    return context
+  model = Review
+  context_object_name = "reviews"
 
 class SingleReviewView(TemplateView):
   template_name = "reviews/single-review.html"

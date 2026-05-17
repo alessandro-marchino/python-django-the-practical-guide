@@ -1,10 +1,11 @@
-from typing import Any
+from typing import Any, Dict
 
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateView
 
+from .models import Review
 from .forms import ReviewForm
 
 # Create your views here.
@@ -28,7 +29,15 @@ class ReviewView(View):
 class ThankYouView(TemplateView):
   template_name = "reviews/thank-you.html"
 
-  def get_context_data(self, **kwargs: Any) -> Any:
+  def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
     context = super().get_context_data(**kwargs)
     context["message"] = "This works!"
+    return context
+
+class ReviewsListView(TemplateView):
+  template_name = "reviews/review_list.html"
+
+  def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    context = super().get_context_data(**kwargs)
+    context["reviews"] = Review.objects.all()
     return context

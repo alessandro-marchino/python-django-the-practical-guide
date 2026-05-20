@@ -34,6 +34,13 @@ class SingleReviewView(DetailView):
   model = Review
   context_object_name = "review"
 
+  def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    ctx = super().get_context_data(**kwargs)
+    loaded_review = self.get_object()
+    favorite_id = self.request.session["favorite_review"]
+    ctx["is_favorite"] = str(loaded_review.id) == favorite_id
+    return ctx
+
 class AddFavoriteView(View):
   def post(self, req: HttpRequest) -> HttpResponse:
     review_id = req.POST["review_id"]

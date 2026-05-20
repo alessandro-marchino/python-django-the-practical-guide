@@ -37,7 +37,7 @@ class SingleReviewView(DetailView):
   def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
     ctx = super().get_context_data(**kwargs)
     loaded_review = self.get_object()
-    favorite_id = self.request.session["favorite_review"]
+    favorite_id = self.request.session.get("favorite_review")
     ctx["is_favorite"] = str(loaded_review.id) == favorite_id
     return ctx
 

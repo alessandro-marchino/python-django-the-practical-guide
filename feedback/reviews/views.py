@@ -3,7 +3,7 @@ from typing import Any, Dict
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView, CreateView
 from django.views import View
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 
 from .models import Review
 from .forms import ReviewForm
@@ -37,5 +37,7 @@ class SingleReviewView(DetailView):
 class AddFavoriteView(View):
   def post(self, req: HttpRequest) -> HttpResponse:
     review_id = req.POST["review_id"]
-    Review.objects.get(pk=review_id)
+    fav_review = Review.objects.get(pk=review_id)
+    req.session["favorite_review"] = fav_review
+    return HttpResponseRedirect("/reviews/" + review_id)
 

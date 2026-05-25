@@ -34,3 +34,7 @@ Inside the project, run
 # Run a shell
 ./manage.py shell
 ```
+
+## Admin
+
+The administration user is `admin:password` for the `my_site` project.

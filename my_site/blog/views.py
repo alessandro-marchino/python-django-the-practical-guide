@@ -27,13 +27,19 @@ class AllPostsView(ListView):
   context_object_name = "all_posts"
 
 class SinglePostView(View):
-  def get(self, req: HttpRequest, slug: str) -> HttpResponse:
-    post = Post.objects.get(slug=slug)
-    ctx = {
+  @staticmethod
+  def get_ctx(post: Post, comment_form: CommentForm):
+    return {
       "post": post,
       "post_tags": post.tags.all(),
-      "comment_form": CommentForm()
+      "post_comments": post.comments.all().order_by('-id'),
+      "comment_form": comment_form
     }
+
+
+  def get(self, req: HttpRequest, slug: str) -> HttpResponse:
+    post = Post.objects.get(slug=slug)
+    ctx = SinglePostView.get_ctx(post, CommentForm())
 
     return render(req, "blog/post-detail.html", ctx)
 
@@ -41,11 +47,7 @@ class SinglePostView(View):
     post = Post.objects.get(slug=slug)
     comment_form = CommentForm(req.POST)
     if not comment_form.is_valid():
-      ctx = {
-        "post": post,
-        "post_tags": post.tags.all(),
-        "comment_form": comment_form
-      }
+      ctx = SinglePostView.get_ctx(post, comment_form)
       return render(req, "blog/post-detail.html", ctx)
 
     comment = comment_form.save(commit=False)

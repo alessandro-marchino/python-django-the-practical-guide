@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpRequest
 from django.views.generic import ListView, DetailView
 from .models import Post
+from .forms import CommentForm
 
 all_posts = []
 
@@ -29,4 +28,5 @@ class SinglePostView(DetailView):
   def get_context_data(self, **kwargs):
     ctx = super().get_context_data(**kwargs)
     ctx["post_tags"] = self.get_object().tags.all()
+    ctx["comment_form"] = CommentForm()
     return ctx

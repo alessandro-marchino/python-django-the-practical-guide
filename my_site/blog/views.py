@@ -1,4 +1,6 @@
 from typing import Any
+from array import array
+
 from django.views.generic import ListView
 from django.views import View
 from django.urls import reverse
@@ -28,18 +30,18 @@ class AllPostsView(ListView):
 
 class SinglePostView(View):
   @staticmethod
-  def get_ctx(post: Post, comment_form: CommentForm):
+  def get_ctx(post: Post, comment_form: CommentForm, req: HttpRequest):
     return {
       "post": post,
       "post_tags": post.tags.all(),
       "post_comments": post.comments.all().order_by('-id'),
-      "comment_form": comment_form
+      "comment_form": comment_form,
+      "saved_for_later": post.id in req.session.get('stored_posts', [])
     }
-
 
   def get(self, req: HttpRequest, slug: str) -> HttpResponse:
     post = Post.objects.get(slug=slug)
-    ctx = SinglePostView.get_ctx(post, CommentForm())
+    ctx = SinglePostView.get_ctx(post, CommentForm(), req)
 
     return render(req, "blog/post-detail.html", ctx)
 
@@ -47,7 +49,7 @@ class SinglePostView(View):
     post = Post.objects.get(slug=slug)
     comment_form = CommentForm(req.POST)
     if not comment_form.is_valid():
-      ctx = SinglePostView.get_ctx(post, comment_form)
+      ctx = SinglePostView.get_ctx(post, comment_form, req)
       return render(req, "blog/post-detail.html", ctx)
 
     comment = comment_form.save(commit=False)
@@ -66,9 +68,11 @@ class ReadLaterView(View):
     return render(req, 'blog/stored-posts.html', ctx)
 
   def post(self, req: HttpRequest) -> HttpResponse:
-    stored_posts = req.session.get('stored_posts', [])
+    stored_posts: array[int] = req.session.get('stored_posts', [])
     post_id = int(req.POST["post_id"])
     if post_id not in stored_posts:
       stored_posts.append(post_id)
+    else:
+      stored_posts.remove(post_id)
     req.session['stored_posts'] = stored_posts
     return HttpResponseRedirect('/')

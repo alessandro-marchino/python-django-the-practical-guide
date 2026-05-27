@@ -56,5 +56,19 @@ class SinglePostView(View):
     return HttpResponseRedirect(reverse("post-detail-page", args=[ slug ]))
 
 class ReadLaterView(View):
+  def get(self, req: HttpRequest) -> HttpResponse:
+    stored_posts = req.session.get('stored_posts', [])
+    ctx = {
+      'posts': Post.objects.filter(id__in=stored_posts),
+      'has_posts': len(stored_posts) > 0
+    }
+
+    return render(req, 'blog/stored-posts.html', ctx)
+
   def post(self, req: HttpRequest) -> HttpResponse:
-    pass
+    stored_posts = req.session.get('stored_posts', [])
+    post_id = int(req.POST["post_id"])
+    if post_id not in stored_posts:
+      stored_posts.append(post_id)
+    req.session['stored_posts'] = stored_posts
+    return HttpResponseRedirect('/')

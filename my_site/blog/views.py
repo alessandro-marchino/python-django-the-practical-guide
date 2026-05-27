@@ -55,3 +55,6 @@ class SinglePostView(View):
     comment.save()
     return HttpResponseRedirect(reverse("post-detail-page", args=[ slug ]))
 
+class ReadLaterView(View):
+  def post(self, req: HttpRequest) -> HttpResponse:
+    pass

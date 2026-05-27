@@ -184,3 +184,20 @@ main {
   }
 }
 
+#read-later {
+  margin: 2rem 0;
+
+  button {
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 0.5rem 2rem;
+    font: inherit;
+    color: white;
+    cursor: pointer;
+
+    &:hover, &:active {
+      background-color: white;
+      color: #390281;
+    }
+  }
+}

@@ -5,8 +5,8 @@ from django.http import HttpRequest, HttpResponse
 
 def index(req: HttpRequest) -> HttpResponse:
     meetups = [
-        { 'title': 'A First Meetup' },
-        { 'title': 'A Second Meetup' }
+        { 'title': 'A First Meetup', 'location': 'New York', 'slug': 'a-first-meetup' },
+        { 'title': 'A Second Meetup', 'location': 'Paris', 'slug': 'a-second-meetup' }
     ]
     return render(req, 'meetups/index.html', {
         'show_meetups': True,

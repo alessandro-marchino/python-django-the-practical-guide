@@ -10,5 +10,14 @@
 <body>
   <h1>All Meetups!</h1>
   <p>Hello World!</p>
+
+  {% if show_meetups %}
+    {% for meetup in meetups %}
+      <h2>{{ meetup.title }}</h2>
+    {% endfor %}
+  {% else %}
+    <p>No meetups found</p>
+  {% endif %}
+
 </body>
 </html>

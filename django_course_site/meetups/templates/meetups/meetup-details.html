@@ -1,42 +1,33 @@
+{% extends "meetups/base/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ meetup.title }}</title>
-  <link rel="stylesheet" href="{% static "meetups/base.css" %}" />
+
+{% block title %}{{ meetup.title }}{% endblock title %}
+
+{% block site_css %}
   <link rel="stylesheet" href="{% static "meetups/meetup-detail.css" %}" />
-</head>
-<body>
-  <header id="main-header">
-    <nav>
-      <a href="{% url "all-meetups" %}" id="main-logo">DjangoMeetups</a>
-      <h1>We got great meetups coming up!</h1>
-      <p>Find the one that best suits your needs!</p>
-    </nav>
-  </header>
-  <main>
-    <article>
-      <img src="" alt="" />
-      <section id="location">
-        <h2>Meetup Location</h2>
-        <address>This meetup takes place in <span>LOCATION</span> (ADDRESS).</address>
-      </section>
+{% endblock site_css %}
 
-      <section id="details">
-        <h2>What's This Meetup About?</h2>
-        <p>{{ meetup.description }}</p>
-        <footer>
-          <p>Need more details? Please <a href="">contact the organizer</a> (but don't spam us ;-))</p>
-        </footer>
-      </section>
+{% block main_heading %}{{ meetup.title }}{% endblock main_heading %}
 
-      <section id="registration">
-        <h2>Join Us!</h2>
-        FORM
-      </section>
-    </article>
-  </main>
-</body>
-</html>
+{% block body %}
+  <article>
+    <img src="" alt="" />
+    <section id="location">
+      <h2>Meetup Location</h2>
+      <address>This meetup takes place in <span>LOCATION</span> (ADDRESS).</address>
+    </section>
+
+    <section id="details">
+      <h2>What's This Meetup About?</h2>
+      <p>{{ meetup.description }}</p>
+      <footer>
+        <p>Need more details? Please <a href="">contact the organizer</a> (but don't spam us ;-))</p>
+      </footer>
+    </section>
+
+    <section id="registration">
+      <h2>Join Us!</h2>
+      FORM
+    </section>
+  </article>
+{% endblock body %}

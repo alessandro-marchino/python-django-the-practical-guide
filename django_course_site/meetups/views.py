@@ -15,11 +15,16 @@ def index(req: HttpRequest) -> HttpResponse:
 def meetup_details(req: HttpRequest, meetup_slug: str) -> HttpResponse:
     try:
         selected_meetup = Meetup.objects.get(slug=meetup_slug)
-        return render(req, 'meetups/meetup-details.html', {
-            'meetup_found': True,
-            'meetup': selected_meetup,
-            'form': RegistrationForm()
-        })
+        if req.method == 'GET':
+            return render(req, 'meetups/meetup-details.html', {
+                'meetup_found': True,
+                'meetup': selected_meetup,
+                'form': RegistrationForm()
+            })
+        else:
+            form = RegistrationForm(req.POST)
+            if not form.is_valid():
+
     except Exception as exc:
         return render(req, 'meetups/meetup-details.html', {
             'meetup_found': False

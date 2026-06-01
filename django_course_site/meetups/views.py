@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 
 from .models import Meetup
@@ -16,16 +16,23 @@ def meetup_details(req: HttpRequest, meetup_slug: str) -> HttpResponse:
     try:
         selected_meetup = Meetup.objects.get(slug=meetup_slug)
         if req.method == 'GET':
-            return render(req, 'meetups/meetup-details.html', {
-                'meetup_found': True,
-                'meetup': selected_meetup,
-                'form': RegistrationForm()
-            })
+            form = RegistrationForm()
         else:
             form = RegistrationForm(req.POST)
-            if not form.is_valid():
+            if form.is_valid():
+                participant = form.save()
+                selected_meetup.participants.add(participant)
+                return redirect('confirm-registration')
 
+        return render(req, 'meetups/meetup-details.html', {
+            'meetup_found': True,
+            'meetup': selected_meetup,
+            'form': form
+        })
     except Exception as exc:
         return render(req, 'meetups/meetup-details.html', {
             'meetup_found': False
         })
+
+def confirm_registration(req: HttpRequest) -> HttpResponse:
+    return render(req, 'meetups/registration-success.html')

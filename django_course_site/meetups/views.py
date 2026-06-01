@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
 from .models import Meetup
+from .forms import RegistrationForm
 
 # Create your views here.
 
@@ -16,7 +17,8 @@ def meetup_details(req: HttpRequest, meetup_slug: str) -> HttpResponse:
         selected_meetup = Meetup.objects.get(slug=meetup_slug)
         return render(req, 'meetups/meetup-details.html', {
             'meetup_found': True,
-            'meetup': selected_meetup
+            'meetup': selected_meetup,
+            'form': RegistrationForm()
         })
     except Exception as exc:
         return render(req, 'meetups/meetup-details.html', {
